@@ -1,21 +1,22 @@
 import pygame
 import sys
 from wall_manager import WallManager
-from coin_manager import CoinManager  # Import the CoinManager class
+from coin_manager import CoinManager
 
 # Initialize Pygame
 pygame.init()
 
 # Constants
-WIDTH, HEIGHT = 800, 600  # Window size
-FPS = 60  # Frames per second
+WIDTH, HEIGHT = 800, 600
+FPS = 60
 
 # Colors
 PORPOL = (160, 32, 240)
+BACKGROUND_COLOR = (0, 0, 0)  # Background color for the screen
 
 # Player settings
 player_size = 10
-player_pos = [WIDTH // 2, HEIGHT // 2]  # Start in the center
+player_pos = [WIDTH // 2, HEIGHT // 2]
 speed = 2.5
 
 # Create the screen
@@ -23,7 +24,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("2D RPG")
 
 # Load and scale the background image
-background_image = pygame.image.load('images\images.png').convert()
+background_image = pygame.image.load('background\images.png').convert()
 background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
 # Create instances of WallManager and CoinManager
@@ -65,13 +66,13 @@ while True:
     # Key press handling
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
-        player_pos[1] -= speed  # Move up
+        player_pos[1] -= speed
     if keys[pygame.K_s]:
-        player_pos[1] += speed  # Move down
+        player_pos[1] += speed
     if keys[pygame.K_a]:
-        player_pos[0] -= speed  # Move left
+        player_pos[0] -= speed
     if keys[pygame.K_d]:
-        player_pos[0] += speed  # Move right
+        player_pos[0] += speed
 
     # Boundary checking
     if player_pos[0] < 0:
@@ -91,7 +92,7 @@ while True:
 
     # Handle coin collection
     collected_coins = coin_manager.handle_coin_collection(player_rect)
-    score += collected_coins  # Update score based on collected coins
+    score += collected_coins
 
     # Update player position after collision handling
     player_pos[0], player_pos[1] = player_rect.x, player_rect.y
@@ -105,13 +106,13 @@ while True:
     # Draw the coins
     coin_manager.draw_coins(screen)
 
-    # Draw the player (a purple square)
+    # Draw the player
     pygame.draw.rect(screen, PORPOL, player_rect)
 
-    # Display the score
+    # Draw the score in the top right corner
     font = pygame.font.SysFont(None, 36)
-    score_text = font.render(f"Score: {score}", True, (255, 255, 255))
-    screen.blit(score_text, (10, 10))
+    score_text = font.render(f"Score: {score}", True, (0, 255, 255))
+    screen.blit(score_text, (WIDTH - score_text.get_width() - 10, 10))
 
     # Update the display
     pygame.display.flip()
