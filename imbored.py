@@ -29,9 +29,20 @@ background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 wall_manager = WallManager()
 
 # Add walls to the manager
-wall_manager.add_wall(200, 200, 200, 20)  # Wall placed at (200, 200) with width 200 and height 20
-wall_manager.add_wall(50, 150, 20, 40)    # Another wall
-wall_manager.add_wall(400,200,20,200)
+# Add these lines to the WallManager in your main game file
+
+# Example maze
+wall_manager.add_wall(50, 50, 10, 500)    # Vertical wall
+wall_manager.add_wall(50, 50, 300, 10)    # Horizontal wall
+wall_manager.add_wall(150, 150, 10, 300)  # Vertical wall
+wall_manager.add_wall(150, 150, 300, 10)  # Horizontal wall
+wall_manager.add_wall(300, 300, 10, 150)  # Vertical wall
+wall_manager.add_wall(300, 300, 150, 10)  # Horizontal wall
+wall_manager.add_wall(450, 150, 10, 300)  # Vertical wall
+wall_manager.add_wall(450, 150, 200, 10)  # Horizontal wall
+wall_manager.add_wall(600, 50, 10, 500)   # Vertical wall
+wall_manager.add_wall(600, 250, 100, 10)  # Horizontal wall
+
 
 # Clock to control frame rate
 clock = pygame.time.Clock()
