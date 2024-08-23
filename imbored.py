@@ -36,6 +36,7 @@ class Wall:
 # Create a wall object (you can add more walls as needed)
 wall = Wall(200, 200, 200, 20)  # Wall placed at (300, 200) with width 200 and height 20
 wall2 = Wall(50, 150, 20, 40)
+
 # Clock to control frame rate
 clock = pygame.time.Clock()
 
@@ -86,8 +87,7 @@ while True:
     screen.blit(background_image, (0, 0))
 
     # Draw the wall
-    wall.draw(screen)
-    wall2.draw(screen)
+
 
     # Draw the player (a purple square)
     pygame.draw.rect(screen, PORPOL, player_rect)
