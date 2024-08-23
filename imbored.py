@@ -9,15 +9,19 @@ WIDTH, HEIGHT = 800, 600  # Window size
 FPS = 60  # Frames per second
 
 # Colors
-YELLOW = (255, 255, 0)
+PORPOL = (160, 32, 240)
 
 # Player settings
 player_size = 10
 player_pos = [WIDTH // 2, HEIGHT // 2]  # Start in the center
 speed = 2.5
+
 # Create the screen
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("2D RPG")
+
+# Load background image
+background_image = pygame.image.load('backgrounds\images.png').convert()
 
 # Clock to control frame rate
 clock = pygame.time.Clock()
@@ -50,11 +54,11 @@ while True:
     if player_pos[1] > HEIGHT - player_size:
         player_pos[1] = HEIGHT - player_size
 
-    # Fill screen with black
-    screen.fill((0, 0, 0))
+    # Draw the background image
+    screen.blit(background_image, (0, 0))
 
-    # Draw the player (a yellow square)
-    pygame.draw.rect(screen, YELLOW, (player_pos[0], player_pos[1], player_size, player_size))
+    # Draw the player (a purple square)
+    pygame.draw.rect(screen, PORPOL, (player_pos[0], player_pos[1], player_size, player_size))
 
     # Update the display
     pygame.display.flip()
