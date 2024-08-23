@@ -1,6 +1,6 @@
 import pygame
 import sys
-from wall import Wall  # Import the Wall class
+from wall_manager import WallManager  # Import the WallManager class
 
 # Initialize Pygame
 pygame.init()
@@ -25,9 +25,13 @@ pygame.display.set_caption("2D RPG")
 background_image = pygame.image.load('backgrounds/images.png').convert()
 background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
-# Create wall objects (you can add more walls as needed)
-wall = Wall(200, 200, 200, 20)  # Wall placed at (200, 200) with width 200 and height 20
-wall2 = Wall(50, 150, 20, 40)    # Another wall
+# Create an instance of WallManager
+wall_manager = WallManager()
+
+# Add walls to the manager
+wall_manager.add_wall(200, 200, 200, 20)  # Wall placed at (200, 200) with width 200 and height 20
+wall_manager.add_wall(50, 150, 20, 40)    # Another wall
+wall_manager.add_wall(400,200,20,200)
 
 # Clock to control frame rate
 clock = pygame.time.Clock()
@@ -64,8 +68,7 @@ while True:
     player_rect = pygame.Rect(player_pos[0], player_pos[1], player_size, player_size)
 
     # Handle collisions with walls
-    wall.handle_collision(player_rect)
-    wall2.handle_collision(player_rect)
+    wall_manager.handle_collisions(player_rect)
 
     # Update player position after collision handling
     player_pos[0], player_pos[1] = player_rect.x, player_rect.y
@@ -74,8 +77,7 @@ while True:
     screen.blit(background_image, (0, 0))
 
     # Draw the walls
-    wall.draw(screen)
-    wall2.draw(screen)
+    wall_manager.draw_walls(screen)
 
     # Draw the player (a purple square)
     pygame.draw.rect(screen, PORPOL, player_rect)
