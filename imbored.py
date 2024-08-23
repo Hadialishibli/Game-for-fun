@@ -23,7 +23,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("2D RPG")
 
 # Load and scale the background image
-background_image = pygame.image.load('backgrounds/images.png').convert()
+background_image = pygame.image.load('images\images.png').convert()
 background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
 # Create instances of WallManager and CoinManager
