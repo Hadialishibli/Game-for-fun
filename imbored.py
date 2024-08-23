@@ -111,7 +111,7 @@ while True:
 
     # Draw the score in the top right corner
     font = pygame.font.SysFont(None, 36)
-    score_text = font.render(f"Score: {score}", True, (0, 255, 255))
+    score_text = font.render(f"Score: {score}", True, (160, 32, 240))
     screen.blit(score_text, (WIDTH - score_text.get_width() - 10, 10))
 
     # Update the display
