@@ -14,7 +14,7 @@ YELLOW = (255, 255, 0)
 # Player settings
 player_size = 10
 player_pos = [WIDTH // 2, HEIGHT // 2]  # Start in the center
-
+speed = 2.5
 # Create the screen
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("2D RPG")
@@ -32,13 +32,13 @@ while True:
     # Key press handling
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
-        player_pos[1] -= 5  # Move up
+        player_pos[1] -= speed  # Move up
     if keys[pygame.K_s]:
-        player_pos[1] += 5  # Move down
+        player_pos[1] += speed  # Move down
     if keys[pygame.K_a]:
-        player_pos[0] -= 5  # Move left
+        player_pos[0] -= speed  # Move left
     if keys[pygame.K_d]:
-        player_pos[0] += 5  # Move right
+        player_pos[0] += speed  # Move right
 
     # Boundary checking
     if player_pos[0] < 0:
