@@ -20,8 +20,9 @@ speed = 2.5
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("2D RPG")
 
-# Load background image
+# Load and scale the background image
 background_image = pygame.image.load('backgrounds\images.png').convert()
+background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
 # Clock to control frame rate
 clock = pygame.time.Clock()
@@ -54,7 +55,7 @@ while True:
     if player_pos[1] > HEIGHT - player_size:
         player_pos[1] = HEIGHT - player_size
 
-    # Draw the background image
+    # Draw the scaled background image
     screen.blit(background_image, (0, 0))
 
     # Draw the player (a purple square)
