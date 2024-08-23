@@ -22,7 +22,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("2D RPG")
 
 # Load and scale the background image
-background_image = pygame.image.load('backgrounds\images.png').convert()
+background_image = pygame.image.load('backgrounds/images.png').convert()
 background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
 # Wall class definition
@@ -32,11 +32,22 @@ class Wall:
     
     def draw(self, screen):
         pygame.draw.rect(screen, WALL_COLOR, self.rect)
+    
+    def handle_collision(self, player_rect):
+        if self.rect.colliderect(player_rect):
+            if player_rect.right > self.rect.left and player_rect.left < self.rect.left:
+                player_rect.right = self.rect.left
+            elif player_rect.left < self.rect.right and player_rect.right > self.rect.right:
+                player_rect.left = self.rect.right
+            if player_rect.bottom > self.rect.top and player_rect.top < self.rect.top:
+                player_rect.bottom = self.rect.top
+            elif player_rect.top < self.rect.bottom and player_rect.bottom > self.rect.bottom:
+                player_rect.top = self.rect.bottom
 
-# Create a wall object (you can add more walls as needed)
-wall = Wall(200, 200, 200, 20)  # Wall placed at (300, 200) with width 200 and height 20
+# Create wall objects (you can add more walls as needed)
+wall = Wall(200, 200, 200, 20)
 wall2 = Wall(50, 150, 20, 40)
-
+wall3 = Wall(10, 170, 20, 40)
 # Clock to control frame rate
 clock = pygame.time.Clock()
 
@@ -71,23 +82,21 @@ while True:
     # Player's rectangle
     player_rect = pygame.Rect(player_pos[0], player_pos[1], player_size, player_size)
 
-    # Collision detection with the wall
-    if player_rect.colliderect(wall.rect) or player_rect.colliderect(wall2.rect):
-        # Undo the movement
-        if keys[pygame.K_w]:
-            player_pos[1] += speed
-        if keys[pygame.K_s]:
-            player_pos[1] -= speed
-        if keys[pygame.K_a]:
-            player_pos[0] += speed
-        if keys[pygame.K_d]:
-            player_pos[0] -= speed
+    # Handle collisions with walls
+    wall.handle_collision(player_rect)
+    wall2.handle_collision(player_rect)
+    wall3.handle_collision(player_rect)
+
+    # Update player position after collision handling
+    player_pos[0], player_pos[1] = player_rect.x, player_rect.y
 
     # Draw the scaled background image
     screen.blit(background_image, (0, 0))
 
-    # Draw the wall
-
+    # Draw the walls
+    wall.draw(screen)
+    wall2.draw(screen)
+    wall3.draw(screen)
 
     # Draw the player (a purple square)
     pygame.draw.rect(screen, PORPOL, player_rect)
