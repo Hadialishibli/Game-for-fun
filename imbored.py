@@ -3,6 +3,7 @@ import sys
 from wall_manager import WallManager
 from coin_manager import CoinManager
 from health_manager import HealthManager
+from enemy_manager import EnemyManager  # Import the EnemyManager
 
 # Initialize Pygame
 pygame.init()
@@ -28,29 +29,26 @@ pygame.display.set_caption("2D RPG")
 background_image = pygame.image.load('background/images.png').convert()
 background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
-# Create instances of WallManager, CoinManager, and HealthManager
+# Create instances of WallManager, CoinManager, HealthManager, and EnemyManager
 wall_manager = WallManager()
 coin_manager = CoinManager()
 health_manager = HealthManager()
+enemy_manager = EnemyManager()
 
 # Add walls to the WallManager
 wall_manager.add_wall(50, 50, 10, 500)
 wall_manager.add_wall(50, 50, 300, 10)
-wall_manager.add_wall(150, 150, 10, 300)
-wall_manager.add_wall(150, 150, 300, 10)
-wall_manager.add_wall(300, 300, 10, 150)
-wall_manager.add_wall(300, 300, 150, 10)
-wall_manager.add_wall(450, 150, 10, 300)
-wall_manager.add_wall(450, 150, 200, 10)
-wall_manager.add_wall(600, 50, 10, 500)
-wall_manager.add_wall(600, 250, 100, 10)
+# Add more walls as needed...
 
 # Add coins to the CoinManager
 coin_manager.add_coin(100, 100)
 coin_manager.add_coin(200, 200)
-coin_manager.add_coin(300, 300)
-coin_manager.add_coin(400, 400)
-coin_manager.add_coin(500, 500)
+# Add more coins as needed...
+
+# Add enemies to the EnemyManager
+enemy_manager.add_enemy(100, 50, 1.5)
+enemy_manager.add_enemy(300, 400, 2.0)
+enemy_manager.add_enemy(600, 150, 1.0)
 
 # Clock to control frame rate
 clock = pygame.time.Clock()
@@ -96,13 +94,11 @@ while True:
     collected_coins = coin_manager.handle_coin_collection(player_rect)
     score += collected_coins
 
+    # Update enemies and handle collisions with the player
+    enemy_manager.update_enemies(player_rect, health_manager)
+
     # Update player position after collision handling
     player_pos[0], player_pos[1] = player_rect.x, player_rect.y
-
-    # Simulate a condition where health decreases (e.g., touching a certain wall or enemy)
-    # For now, decrease health by 1 if the player moves
-    if keys[pygame.K_w] or keys[pygame.K_s] or keys[pygame.K_a] or keys[pygame.K_d]:
-        health_manager.decrease_health(0.05)
 
     # Draw the scaled background image
     screen.blit(background_image, (0, 0))
@@ -112,6 +108,9 @@ while True:
 
     # Draw the coins
     coin_manager.draw_coins(screen)
+
+    # Draw the enemies
+    enemy_manager.draw_enemies(screen)
 
     # Draw the player
     pygame.draw.rect(screen, PORPOL, player_rect)
