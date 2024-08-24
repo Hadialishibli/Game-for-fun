@@ -18,7 +18,6 @@ BACKGROUND_COLOR = (0, 0, 0)
 
 # Player settings
 player_size = 10
-player_pos = [WIDTH // 2, HEIGHT // 2]
 speed = 2.5
 
 # Create the screen
@@ -35,20 +34,55 @@ coin_manager = CoinManager()
 health_manager = HealthManager()
 enemy_manager = EnemyManager()
 
-# Add walls to the WallManager
-wall_manager.add_wall(50, 50, 10, 500)
-wall_manager.add_wall(50, 50, 300, 10)
-# Add more walls as needed...
+# Walls
+# Walls
+wall_manager.add_wall(50, 50, 700, 10)    # Top wall
+wall_manager.add_wall(50, 50, 10, 500)    # Left wall
+wall_manager.add_wall(50, 540, 700, 10)   # Bottom wall
+wall_manager.add_wall(740, 50, 10, 500)   # Right wall
 
-# Add coins to the CoinManager
-coin_manager.add_coin(100, 100)
-coin_manager.add_coin(200, 200)
-# Add more coins as needed...
+# Inner walls creating a more complex maze
+wall_manager.add_wall(200, 50, 10, 190)   # Vertical wall near top-left
+wall_manager.add_wall(200, 300, 10, 230)  # Vertical wall near bottom-left
+wall_manager.add_wall(400, 100, 10, 200)  # Vertical wall middle-top
+wall_manager.add_wall(400, 400, 10, 140)  # Vertical wall middle-bottom
+wall_manager.add_wall(600, 50, 10, 190)   # Vertical wall near top-right
+wall_manager.add_wall(600, 300, 10, 240)  # Vertical wall near bottom-right
+wall_manager.add_wall(50, 250, 300, 10)   # Horizontal wall middle-left
+wall_manager.add_wall(440, 250, 300, 10)  # Horizontal wall middle-right
+wall_manager.add_wall(50, 150, 140, 10)   # Horizontal wall near top-left
+wall_manager.add_wall(250, 150, 150, 10)  # Horizontal wall middle-top
+wall_manager.add_wall(450, 150, 150, 10)  # Horizontal wall middle-top right
+wall_manager.add_wall(50, 450, 150, 10)   # Horizontal wall near bottom-left
+wall_manager.add_wall(250, 450, 150, 10)  # Horizontal wall middle-bottom
+wall_manager.add_wall(450, 450, 150, 10)  # Horizontal wall near bottom-right
 
-# Add enemies to the EnemyManager
-enemy_manager.add_enemy(100, 50, 1.5)
-enemy_manager.add_enemy(300, 400, 2.0)
-enemy_manager.add_enemy(600, 150, 1.0)
+# Coins
+coin_manager.add_coin(100, 100)  # Top-left area
+coin_manager.add_coin(300, 100)  # Top-middle-left area
+coin_manager.add_coin(500, 100)  # Top-middle-right area
+coin_manager.add_coin(700, 100)  # Top-right area
+coin_manager.add_coin(100, 300)  # Middle-left area
+coin_manager.add_coin(700, 300)  # Middle-right area
+coin_manager.add_coin(100, 500)  # Bottom-left area
+coin_manager.add_coin(300, 500)  # Bottom-middle-left area
+coin_manager.add_coin(500, 500)  # Bottom-middle-right area
+coin_manager.add_coin(700, 500)  # Bottom-right area
+
+# Enemies
+enemy_manager.add_enemy(350, 150, 1.0)  # Near the top-middle
+enemy_manager.add_enemy(450, 350, 1.0)  # Near the bottom-middle
+enemy_manager.add_enemy(150, 200, 1.0)  # Near the middle-left
+enemy_manager.add_enemy(650, 200, 1.0)  # Near the middle-right
+enemy_manager.add_enemy(350, 400, 1.0)  # Center of the maze
+
+# Player
+player_pos = [100, 100]  # Starting near the top-left corner
+
+
+# Player
+player_pos = [100, 500]  # Bottom-left corner
+
 
 # Clock to control frame rate
 clock = pygame.time.Clock()
@@ -94,8 +128,8 @@ while True:
     collected_coins = coin_manager.handle_coin_collection(player_rect)
     score += collected_coins
 
-    # Update enemies and handle collisions with the player
-    enemy_manager.update_enemies(player_rect, health_manager)
+    # Update enemies and handle collisions with the player and walls
+    enemy_manager.update_enemies(player_rect, health_manager, wall_manager.walls)
 
     # Update player position after collision handling
     player_pos[0], player_pos[1] = player_rect.x, player_rect.y

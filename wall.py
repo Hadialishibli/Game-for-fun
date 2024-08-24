@@ -9,7 +9,7 @@ class Wall:
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, self.rect)
     
-    def handle_collision(self, player_rect):
+    def handle_collision(self, player_rect ):
         if self.rect.colliderect(player_rect):
             if player_rect.right > self.rect.left and player_rect.left < self.rect.left:
                 player_rect.right = self.rect.left
@@ -19,3 +19,4 @@ class Wall:
                 player_rect.bottom = self.rect.top
             elif player_rect.top < self.rect.bottom and player_rect.bottom > self.rect.bottom:
                 player_rect.top = self.rect.bottom
+                
