@@ -2,6 +2,7 @@ import pygame
 import sys
 from wall_manager import WallManager
 from coin_manager import CoinManager
+from health_manager import HealthManager
 
 # Initialize Pygame
 pygame.init()
@@ -12,7 +13,7 @@ FPS = 60
 
 # Colors
 PORPOL = (160, 32, 240)
-BACKGROUND_COLOR = (0, 0, 0)  # Background color for the screen
+BACKGROUND_COLOR = (0, 0, 0)
 
 # Player settings
 player_size = 10
@@ -24,12 +25,13 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("2D RPG")
 
 # Load and scale the background image
-background_image = pygame.image.load('background\images.png').convert()
+background_image = pygame.image.load('background/images.png').convert()
 background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
-# Create instances of WallManager and CoinManager
+# Create instances of WallManager, CoinManager, and HealthManager
 wall_manager = WallManager()
 coin_manager = CoinManager()
+health_manager = HealthManager()
 
 # Add walls to the WallManager
 wall_manager.add_wall(50, 50, 10, 500)
@@ -97,6 +99,11 @@ while True:
     # Update player position after collision handling
     player_pos[0], player_pos[1] = player_rect.x, player_rect.y
 
+    # Simulate a condition where health decreases (e.g., touching a certain wall or enemy)
+    # For now, decrease health by 1 if the player moves
+    if keys[pygame.K_w] or keys[pygame.K_s] or keys[pygame.K_a] or keys[pygame.K_d]:
+        health_manager.decrease_health(0.05)
+
     # Draw the scaled background image
     screen.blit(background_image, (0, 0))
 
@@ -111,8 +118,11 @@ while True:
 
     # Draw the score in the top right corner
     font = pygame.font.SysFont(None, 36)
-    score_text = font.render(f"Score: {score}", True, (160, 32, 240))
+    score_text = font.render(f"Score: {score}", True, (0, 255, 255))
     screen.blit(score_text, (WIDTH - score_text.get_width() - 10, 10))
+
+    # Draw the health in the bottom left corner
+    health_manager.draw_health(screen, font, WIDTH, HEIGHT)
 
     # Update the display
     pygame.display.flip()
